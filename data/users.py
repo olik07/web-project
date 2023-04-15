@@ -15,6 +15,7 @@ class User(SqlAlchemyBase, UserMixin):
     user_role = sqlalchemy.Column(sqlalchemy.Integer,
                                   sqlalchemy.ForeignKey('users_roles.id'))
     role = orm.relationship('UserRole')
+    recipes = orm.relationship('Recipes', back_populates='user')
     surname = sqlalchemy.Column(sqlalchemy.String)
     name = sqlalchemy.Column(sqlalchemy.String)
     email = sqlalchemy.Column(sqlalchemy.String, unique=True)

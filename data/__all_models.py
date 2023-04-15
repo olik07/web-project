@@ -1,1 +1,1 @@
-from . import users, users_roles
+from . import users, users_roles, recipes
