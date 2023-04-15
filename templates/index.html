@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Все рецепты</h1>
+{% for item in recipes %}
+<div class="col-md6 border rounded">
+    <h2>{{ item.title }}</h2>
+    <div class="recipe_image">
+        <img src="static/img/{{ item.picture_name }}" width="300">
+    </div>
+    <div class="description">
+        {{ item.description }}
+    </div>
+    <div>
+        Автор - {{ item.user.surname}}&nbsp{{ item.user.name }}
+    </div>
+</div>
+{% endfor %}
+{% endblock %}

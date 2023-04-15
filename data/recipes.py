@@ -11,6 +11,7 @@ class Recipes(SqlAlchemyBase):
     id = sqlalchemy.Column(sqlalchemy.Integer,
                            primary_key=True, autoincrement=True)
     title = sqlalchemy.Column(sqlalchemy.String)
+    description = sqlalchemy.Column(sqlalchemy.String)
     picture_name = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     ingredients = sqlalchemy.Column(sqlalchemy.String)
     recipe = sqlalchemy.Column(sqlalchemy.String)

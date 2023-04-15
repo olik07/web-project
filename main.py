@@ -2,6 +2,7 @@ from flask import Flask, render_template, redirect
 from flask_login import LoginManager, login_user, login_required, logout_user
 from data import db_session
 from data.users import User
+from data.recipes import Recipes
 from forms.user import RegisterForm
 from forms.user_login import LoginForm
 
@@ -13,7 +14,9 @@ app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 
 @app.route('/')
 def index():
-    return render_template('base.html', title='Домашняя страница')
+    db_sess = db_session.create_session()
+    recipes = db_sess.query(Recipes).all()
+    return render_template('index.html', recipes=recipes, title='Домашняя страница')
 
 
 @app.route('/register', methods=['GET', 'POST'])
