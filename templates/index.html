@@ -3,17 +3,19 @@
 {% block content %}
 <h1>Все рецепты</h1>
 {% for item in recipes %}
-<div class="col-md6 border rounded">
-    <h2>{{ item.title }}</h2>
-    <div class="recipe_image">
-        <img src="static/img/{{ item.picture_name }}" width="300">
+<div class="card mb-3" style="max-width: 800px;">
+  <div class="row g-0">
+    <div class="col-md-4">
+      <img src="static/img/{{ item.picture_name }}" class="img-fluid rounded-start" style="height: 200px;">
     </div>
-    <div class="description">
-        {{ item.description }}
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title">{{ item.title }}</h5>
+        <p class="card-text">{{ item.description }}</p>
+        <p class="card-text"><small class="text-muted">{{ item.user.surname }}&nbsp;{{ item.user.name }}</small></p>
+      </div>
     </div>
-    <div>
-        Автор - {{ item.user.surname}}&nbsp{{ item.user.name }}
-    </div>
+  </div>
 </div>
 {% endfor %}
 {% endblock %}
