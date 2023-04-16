@@ -73,6 +73,13 @@ def logout():
     return redirect('/')
 
 
+@app.route('/recipe/<int:recipe_id>')
+def show_one_recipe(recipe_id):
+    db_sess = db_session.create_session()
+    recipe = db_sess.query(Recipes).get(recipe_id)
+    return render_template('recipe.html', title=f'{recipe.title}', recipe=recipe)
+
+
 def main():
     db_session.global_init('db/recipe_book.db')
     app.run()

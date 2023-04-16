@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="text-center fst-italic fst-bold"
+    style="font-family: cursive; color: #2E8B57; margin-top: 15px;">{{ recipe.title }}</h1>
+<img src="/static/img/{{ recipe.picture_name }}" style="width: 400px; float: left;" class="me-5">
+<p style="margin-right: 200px; font-size: 22px; font-family: serif;" class="lh-1">{{ recipe.description }}</p>
+<ol style="margin-left: 450px;">
+    {% for item in recipe.ingredients.split('\n') %}
+    <li style="font-family: serif; font-size: 19px;">{{ item }}</li>
+    {% endfor %}
+</ol>
+<h3 style="margin-left: 20px; font-family: fantasy; font-style: italic;"
+    class="text-decoration-underline">Рецепт</h3>
+<ul>
+    {% for step in recipe.recipe.split('\n') %}
+    <li>{{ step }}</li>
+    {% endfor %}
+</ul>
+{% endblock %}
