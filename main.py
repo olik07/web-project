@@ -5,6 +5,7 @@ from data.users import User
 from data.recipes import Recipes
 from forms.user import RegisterForm
 from forms.user_login import LoginForm
+from forms.recipe_form import RecipeForm
 
 app = Flask(__name__)
 login_manager = LoginManager()
@@ -78,6 +79,14 @@ def show_one_recipe(recipe_id):
     db_sess = db_session.create_session()
     recipe = db_sess.query(Recipes).get(recipe_id)
     return render_template('recipe.html', title=f'{recipe.title}', recipe=recipe)
+
+
+@app.route('/add_recipe',  methods=['GET', 'POST'])
+@login_required
+def add_recipe():
+    form = RecipeForm()
+    return render_template('add_recipe.html', title='Добавление рецепта',
+                           form=form)
 
 
 def main():

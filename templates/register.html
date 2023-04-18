@@ -25,7 +25,7 @@
     <p>
         {{ form.role.label }}<br>
         {{ form.role }}
-        {% for error in form.name.errors %}
+        {% for error in form.role.errors %}
             <p class="alert alert-danger" role="alert">
                 {{ error }}
             </p>
