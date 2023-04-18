@@ -17,5 +17,8 @@ class Recipes(SqlAlchemyBase):
     recipe = sqlalchemy.Column(sqlalchemy.String)
     user_id = sqlalchemy.Column(sqlalchemy.Integer,
                                 sqlalchemy.ForeignKey("users.id"))
+    categories = orm.relationship("Category",
+                                  secondary="recipe_to_category",
+                                  backref="recipes")
     user = orm.relationship('User')
     created_date = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.datetime.now)
