@@ -1,5 +1,5 @@
 from flask import Flask, render_template, redirect
-from flask_login import LoginManager, login_user, login_required, logout_user
+from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from data import db_session
 from data.users import User
 from data.recipes import Recipes
@@ -85,6 +85,19 @@ def show_one_recipe(recipe_id):
 @login_required
 def add_recipe():
     form = RecipeForm()
+    if form.validate_on_submit():
+        db_sess = db_session.create_session()
+        recipe = Recipes()
+        recipe.title = form.title.data
+        recipe.description = form.description.data
+        recipe.ingredients = form.ingredients.data
+        recipe.recipe = form.recipe.data
+        recipe.categories = form.categories.data
+        recipe.picture_name = form.picture.name
+        current_user.recipes.append(recipe)
+        db_sess.merge(current_user)
+        db_sess.commit()
+        return redirect('/')
     return render_template('add_recipe.html', title='Добавление рецепта',
                            form=form)
 

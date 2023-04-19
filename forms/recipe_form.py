@@ -9,7 +9,6 @@ from data.categories import Category
 
 
 def get_all_categories():
-    db_session.global_init('db/recipe_book.db')
     db_sess = db_session.create_session()
     categories = db_sess.query(Category).all()
     res = []
