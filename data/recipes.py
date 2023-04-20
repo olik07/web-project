@@ -12,7 +12,7 @@ class Recipes(SqlAlchemyBase):
                            primary_key=True, autoincrement=True)
     title = sqlalchemy.Column(sqlalchemy.String)
     description = sqlalchemy.Column(sqlalchemy.String)
-    picture_name = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+    picture_name = sqlalchemy.Column(sqlalchemy.String, nullable=False)
     ingredients = sqlalchemy.Column(sqlalchemy.String)
     recipe = sqlalchemy.Column(sqlalchemy.String)
     user_id = sqlalchemy.Column(sqlalchemy.Integer,

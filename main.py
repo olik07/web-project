@@ -1,5 +1,8 @@
+import os
+
 from flask import Flask, render_template, redirect
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
+
 from data import db_session
 from data.categories import Category
 from data.users import User
@@ -7,6 +10,8 @@ from data.recipes import Recipes
 from forms.user import RegisterForm
 from forms.user_login import LoginForm
 from forms.recipe_form import RecipeForm
+
+from sqlalchemy import func
 
 app = Flask(__name__)
 login_manager = LoginManager()
@@ -86,6 +91,7 @@ def show_one_recipe(recipe_id):
 @login_required
 def add_recipe():
     db_sess = db_session.create_session()
+    last_id = db_sess.query(func.max(Recipes.id)).scalar()
     user = db_sess.query(User).filter(User.id == current_user.id).first()
     categories = db_sess.query(Category).all()
     res = []
@@ -99,7 +105,12 @@ def add_recipe():
         recipe.description = form.description.data
         recipe.ingredients = form.ingredients.data
         recipe.recipe = form.recipe.data
-        recipe.picture_name = form.picture.name
+
+        filename = f"{last_id + 1}.jpg"
+        recipe.picture_name = filename
+        file_path = os.path.join("static/img/", filename)
+        form.picture.data.save(file_path)
+
         category = db_sess.query(Category).get(form.categories.data)
         category.recipes.append(recipe)
         db_sess.merge(category)
