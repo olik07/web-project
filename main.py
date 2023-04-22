@@ -174,6 +174,24 @@ def edit_recipe(recipe_id):
                            form=form)
 
 
+@app.route('/delete_recipe/<int:recipe_id>', methods=['GET', 'POST'])
+@login_required
+def news_delete(recipe_id):
+    db_sess = db_session.create_session()
+    recipe = db_sess.query(Recipes).filter(Recipes.id == recipe_id,
+                                           Recipes.user == current_user
+                                           ).first()
+    category = recipe.categories[0]
+    if recipe:
+        category.recipes.remove(recipe)
+        os.remove(os.path.join('static/img/', recipe.picture_name))
+        db_sess.delete(recipe)
+        db_sess.commit()
+    else:
+        abort(404)
+    return redirect('/user')
+
+
 def main():
     db_session.global_init('db/recipe_book.db')
     app.run()
