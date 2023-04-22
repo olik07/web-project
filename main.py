@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, render_template, redirect
+from flask import Flask, render_template, redirect, request, abort
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 
 from data import db_session
@@ -92,7 +92,7 @@ def show_one_recipe(recipe_id):
     return render_template('recipe.html', title=f'{recipe.title}', recipe=recipe)
 
 
-@app.route('/add_recipe',  methods=['GET', 'POST'])
+@app.route('/add_recipe', methods=['GET', 'POST'])
 @login_required
 def add_recipe():
     db_sess = db_session.create_session()
@@ -123,8 +123,54 @@ def add_recipe():
         user.recipes.append(recipe)
         db_sess.merge(user)
         db_sess.commit()
-        return redirect('/')
+        return redirect('/user')
     return render_template('add_recipe.html', title='Добавление рецепта',
+                           form=form)
+
+
+@app.route('/edit_recipe/<int:recipe_id>', methods=['GET', 'POST'])
+def edit_recipe(recipe_id):
+    db_sess = db_session.create_session()
+    categories = db_sess.query(Category).all()
+    res = []
+    for item in categories:
+        res.append((item.id, item.name))
+    form = RecipeForm()
+    form.categories.choices = res
+    if request.method == "GET":
+        recipe = db_sess.query(Recipes).filter(Recipes.id == recipe_id,
+                                               Recipes.user == current_user
+                                               ).first()
+        if recipe:
+            form.title.data = recipe.title
+            form.description.data = recipe.description
+            form.ingredients.data = recipe.ingredients
+            form.recipe.data = recipe.recipe
+        else:
+            abort(404)
+    if form.validate_on_submit():
+        recipe = db_sess.query(Recipes).filter(Recipes.id == recipe_id,
+                                               Recipes.user == current_user
+                                               ).first()
+        if recipe:
+            recipe.title = form.title.data
+            recipe.description = form.description.data
+            recipe.ingredients = form.ingredients.data
+            recipe.recipe = form.recipe.data
+            filename = f"{recipe_id}.jpg"
+            recipe.picture_name = filename
+            file_path = os.path.join("static/img/", filename)
+            form.picture.data.save(file_path)
+            recipe.categories = []
+            category = db_sess.query(Category).get(form.categories.data)
+            category.recipes.append(recipe)
+            db_sess.merge(category)
+            recipe.categories = [category]
+            db_sess.commit()
+            return redirect('/user')
+        else:
+            abort(404)
+    return render_template('add_recipe.html', title='Редактирование рецепта',
                            form=form)
 
 
