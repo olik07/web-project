@@ -2,8 +2,11 @@
 
 {% block content %}
 <h1 class="text-center" style="margin-top: 10px; margin-bottom: 15px;">Все рецепты</h1>
-{% if current_user.is_authenticated %}
-<a class="btn btn-success btn-lg" href="/add_recipe" style="float: right;">Добавить рецепт</a>
+{% if current_user.is_authenticated and current_user.role.id == 2 %}
+<div class="d-grid gap-2 col-2 mx-auto" style="float: right;">
+  <a class="btn btn-success btn-lg" href="/add_recipe">Добавить рецепт</a>
+  <a class="btn btn-success btn-lg" href="/user">Мои рецепты</a>
+</div>
 {% else %}
 <button type="button" class="btn btn-success btn-lg" style="float: right;"
         data-bs-toggle="modal" data-bs-target="#staticBackdrop">
@@ -19,7 +22,7 @@
       </div>
       <div class="modal-body">
         <p>
-          <a href="/register">Зарегистрируйтесь</a> или <a href="/login">авторизуйтесь</a>
+          <a href="/register">Зарегистрируйтесь</a> или <a href="/login">авторизуйтесь</a> как создатель рецептов.
         </p>
       </div>
       <div class="modal-footer">

@@ -73,6 +73,11 @@ def login():
     return render_template('login.html', title='Авторизация', form=form)
 
 
+@app.route('/user')
+def user_recipes():
+    return render_template('user_recipes.html', title='Мои рецепты')
+
+
 @app.route('/logout')
 @login_required
 def logout():
