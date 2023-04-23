@@ -2,10 +2,13 @@
 
 {% block content %}
 <h1 class="text-center" style="margin-top: 10px; margin-bottom: 15px;">Все рецепты</h1>
-{% if current_user.is_authenticated and current_user.role.id == 2 %}
+{% if current_user.is_authenticated %}
 <div class="d-grid gap-2 col-2 mx-auto" style="float: right;">
+  {% if current_user.role.id == 2 %}
   <a class="btn btn-success btn-lg" href="/add_recipe">Добавить рецепт</a>
   <a class="btn btn-success btn-lg" href="/user">Мои рецепты</a>
+  {% endif %}
+  <a class="btn btn-success btn-lg" href="/favorites">Любимые рецепты</a>
 </div>
 {% else %}
 <button type="button" class="btn btn-success btn-lg" style="float: right;"

@@ -16,6 +16,9 @@ class User(SqlAlchemyBase, UserMixin):
                                   sqlalchemy.ForeignKey('users_roles.id'))
     role = orm.relationship('UserRole')
     recipes = orm.relationship('Recipes', back_populates='user')
+    favorite_recipes = orm.relationship('Recipes',
+                                        secondary="favorite_recipes",
+                                        backref="users", lazy="subquery")
     surname = sqlalchemy.Column(sqlalchemy.String)
     name = sqlalchemy.Column(sqlalchemy.String)
     email = sqlalchemy.Column(sqlalchemy.String, unique=True)
@@ -28,3 +31,13 @@ class User(SqlAlchemyBase, UserMixin):
 
     def check_password(self, password):
         return check_password_hash(self.hashed_password, password)
+
+
+favorite_recipes = sqlalchemy.Table(
+    'favorite_recipes',
+    SqlAlchemyBase.metadata,
+    sqlalchemy.Column('recipe', sqlalchemy.Integer,
+                      sqlalchemy.ForeignKey('recipes.id')),
+    sqlalchemy.Column('user', sqlalchemy.Integer,
+                      sqlalchemy.ForeignKey('users.id'))
+)

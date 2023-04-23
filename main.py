@@ -100,6 +100,12 @@ def search_recipes():
     return render_template('search_recipe.html', recipes=recipes, title='Найденные рецепты')
 
 
+@app.route('/favorites')
+def show_favorites():
+    recipes = current_user.favorite_recipes
+    return render_template('favorites.html', recipes=recipes, title='Любимые рецепты')
+
+
 @app.route('/add_recipe', methods=['GET', 'POST'])
 @login_required
 def add_recipe():
