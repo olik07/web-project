@@ -1,0 +1,16 @@
+{% for item in recipes %}
+<div class="card shadow p-3 mb-5 bg-body rounded" style="max-width: 800px;">
+  <div class="row g-0">
+    <div class="col-md-4">
+      <img src="static/img/{{ item.picture_name }}" class="img-fluid rounded-start">
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title">{{ item.title }}</h5>
+        <p class="card-text" align="justify">{{ item.description }}</p>
+        <a class="btn btn-success btn-sm" href="/recipe/{{ item.id }}">Читать дальше</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}

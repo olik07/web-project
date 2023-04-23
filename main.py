@@ -92,6 +92,14 @@ def show_one_recipe(recipe_id):
     return render_template('recipe.html', title=f'{recipe.title}', recipe=recipe)
 
 
+@app.route('/search', methods=['GET'])
+def search_recipes():
+    recipe_query = request.args.get("recipe_query")
+    db_sess = db_session.create_session()
+    recipes = db_sess.query(Recipes).filter(Recipes.title.like(f'%{recipe_query}%'))
+    return render_template('search_recipe.html', recipes=recipes, title='Найденные рецепты')
+
+
 @app.route('/add_recipe', methods=['GET', 'POST'])
 @login_required
 def add_recipe():
