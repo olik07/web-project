@@ -1,3 +1,4 @@
+{% set favorite_ids = current_user.favorite_ids() %}
 {% for item in recipes %}
 <div class="card shadow p-3 mb-5 bg-body rounded" style="max-width: 800px;">
   <div class="row g-0">
@@ -10,10 +11,15 @@
         <p class="card-text" align="justify">{{ item.description }}</p>
         <a class="btn btn-success btn-sm me-1" href="/recipe/{{ item.id }}">Читать дальше</a>
         {% if current_user.is_authenticated %}
-        <form action="add_to_fav" method="post">
+        <form action="add_to_fav" method="post" style="float: right;">
+          {% if item.id not in favorite_ids %}
           <button type="submit" class="btn btn-success btn-sm" name="recipe_id"
-                  value="{{ item.id }}">Добавить в избранное</button>
+                  value="{{ item.id }}" >Добавить в избранное</button>
+          {% else %}
+          <button type="submit" class="btn btn-success btn-sm" name="recipe_id"
+                  value="{{ item.id }}" disabled>Добавить в избранное</button>
         </form>
+        {% endif %}
         {% endif %}
       </div>
     </div>

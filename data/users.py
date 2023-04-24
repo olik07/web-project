@@ -32,6 +32,10 @@ class User(SqlAlchemyBase, UserMixin):
     def check_password(self, password):
         return check_password_hash(self.hashed_password, password)
 
+    def favorite_ids(self):
+        favorite_ids = list(map(lambda i: i.id, self.favorite_recipes))
+        return favorite_ids
+
 
 favorite_recipes = sqlalchemy.Table(
     'favorite_recipes',
