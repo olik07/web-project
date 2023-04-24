@@ -15,13 +15,20 @@
         {% if current_user.is_authenticated %}
         <form action="add_to_fav" method="post" style="float: right;">
           {% if item.id not in favorite_ids %}
-          <button type="submit" class="btn btn-success btn-sm" name="recipe_id"
+          <button type="submit"
+                  class="btn btn-success btn-sm" name="recipe_id"
                   value="{{ item.id }}" >Добавить в избранное</button>
           {% else %}
           <button type="submit" class="btn btn-success btn-sm" name="recipe_id"
                   value="{{ item.id }}" disabled>Добавить в избранное</button>
         </form>
         {% endif %}
+        {% endif %}
+        {% if current_user.is_authenticated and item.id in favorite_ids%}
+        <form action="delete_from_fav" method="post" style="float: right;">
+            <button type="submit" class="btn btn-success btn-sm" name="recipe_id"
+                  value="{{ item.id }}" >Удалить из избранного</button>
+        </form>
         {% endif %}
       </div>
     </div>

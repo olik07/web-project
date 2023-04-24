@@ -118,6 +118,18 @@ def add_to_favorites():
     return redirect('/')
 
 
+@app.route('/delete_from_fav', methods=['POST'])
+def delete_from_favorites():
+    recipe_id = request.form["recipe_id"]
+    db_sess = db_session.create_session()
+    user = db_sess.query(User).filter(User.id == current_user.id).first()
+    recipe = db_sess.query(Recipes).get(recipe_id)
+    user.favorite_recipes.remove(recipe)
+    db_sess.merge(user)
+    db_sess.commit()
+    return redirect('/')
+
+
 @app.route('/add_recipe', methods=['GET', 'POST'])
 @login_required
 def add_recipe():
