@@ -11,13 +11,15 @@
       <div class="card-body">
         <h5 class="card-title">{{ item.title }}</h5>
         <p class="card-text" align="justify">{{ item.description }}</p>
-        <a class="btn btn-success btn-sm me-1" href="/recipe/{{ item.id }}">Читать дальше</a>
+        <a class="btn btn-success btn-sm" href="/recipe/{{ item.id }}">Читать дальше</a>
         {% if current_user.is_authenticated %}
         <form action="add_to_fav" method="post" style="float: right;">
           {% if item.id not in favorite_ids %}
           <button type="submit"
                   class="btn btn-success btn-sm" name="recipe_id"
                   value="{{ item.id }}" >Добавить в избранное</button>
+          <button type="submit" class="btn btn-success btn-sm" name="recipe_id"
+                  value="{{ item.id }}" disabled>Удалить из избранного</button>
           {% else %}
           <button type="submit" class="btn btn-success btn-sm" name="recipe_id"
                   value="{{ item.id }}" disabled>Добавить в избранное</button>
