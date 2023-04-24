@@ -1,4 +1,4 @@
-{if current_user.is_authenticated %}
+{% if current_user.is_authenticated %}
 {% set favorite_ids = current_user.favorite_ids() %}
 {% endif %}
 {% for item in recipes %}
