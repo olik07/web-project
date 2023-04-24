@@ -106,6 +106,18 @@ def show_favorites():
     return render_template('favorites.html', recipes=recipes, title='Любимые рецепты')
 
 
+@app.route('/add_to_fav', methods=['POST'])
+def add_to_favorites():
+    recipe_id = request.form["recipe_id"]
+    db_sess = db_session.create_session()
+    user = db_sess.query(User).filter(User.id == current_user.id).first()
+    recipe = db_sess.query(Recipes).get(recipe_id)
+    user.favorite_recipes.append(recipe)
+    db_sess.merge(user)
+    db_sess.commit()
+    return redirect('/')
+
+
 @app.route('/add_recipe', methods=['GET', 'POST'])
 @login_required
 def add_recipe():

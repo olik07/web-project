@@ -8,7 +8,13 @@
       <div class="card-body">
         <h5 class="card-title">{{ item.title }}</h5>
         <p class="card-text" align="justify">{{ item.description }}</p>
-        <a class="btn btn-success btn-sm" href="/recipe/{{ item.id }}">Читать дальше</a>
+        <a class="btn btn-success btn-sm me-1" href="/recipe/{{ item.id }}">Читать дальше</a>
+        {% if current_user.is_authenticated %}
+        <form action="add_to_fav" method="post">
+          <button type="submit" class="btn btn-success btn-sm" name="recipe_id"
+                  value="{{ item.id }}">Добавить в избранное</button>
+        </form>
+        {% endif %}
       </div>
     </div>
   </div>
